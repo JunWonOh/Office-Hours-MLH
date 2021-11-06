@@ -3,7 +3,7 @@
     <div class="login-area">
         <div>
             <h2>A <i><b>free, easy to use</b></i> video conferencing website</h2>
-            <button id="login-btn" class="btn btn-lg center">Sign in/Register</button>
+            <button id="login-btn" class="btn btn-lg">Sign in/Register</button>
             <script type="text/javascript">
                 document.getElementById("login-btn").onclick = function () {
                     location.href = "/login";
@@ -14,6 +14,19 @@
     <img class="home-image" src="images/videocall-clipart.png">
 </section>
 <section id="steps">
-
+    <div class="flex-container align-horizontally">
+        <div>
+            <h2><b>Step 1:</b></h2>
+            <h3>Generate a token</h3>
+        </div>
+        <div>
+            <h2><b>Step 2:</b></h2>
+            <h3>Share token with student</h3>
+        </div>
+        <div>
+            <h2><b>Step 3:</b></h2>
+            <h3>Connect via video</h3>
+        </div>
+    </div>
 </section>
 <%- include("templates/footer") -%> 

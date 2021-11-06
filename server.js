@@ -25,7 +25,7 @@ app.use(
 
 app.get('/', (req, res) => {
     //oidc = open id connect
-    req.oidc.isAuthenticated() ? res.send('Logged in') : res.render("home")
+    req.oidc.isAuthenticated() ? res.render("auth-home") : res.render("home")
     // res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
 });
 
@@ -35,6 +35,10 @@ app.get('/profile', requiresAuth(), (req, res) => {
     res.send(JSON.stringify(req.oidc.user));
 });
 
+
+app.get('/board', (req, res) => {
+    res.render("whiteboard");
+});
 
 app.listen(port, function() {
     console.log(`Server initialized on port ${port}`);
