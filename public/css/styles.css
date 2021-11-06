@@ -69,9 +69,10 @@ body {
     margin-bottom: 20px;
 }
 
+canvas {
+    margin: 40px;
+}
 /* whiteboard */
-.board {
-    width: 800px;
-    height: 600px;
-    background-color: white;
+canvas:hover {
+    cursor:crosshair;
 }

@@ -7,8 +7,31 @@ const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 const { auth, requiresAuth } = require('express-openid-connect');
+
 app.set('view engine', 'ejs');
 app.use(express.static("public"));
+
+var server = app.listen(port, function() {
+    console.log(`Server initialized on port ${port}`);
+    console.log("From server.js");
+});
+
+const socket = require('socket.io');
+const io = socket(server, {
+    cors: {
+        origin: "http://localhost:3001",
+        methods: ["GET", "POST"],
+        credentials: true,
+    }
+});
+
+io.sockets.on('connection', function(socket) {
+    console.log(`connected at: ${socket.id}`);
+    socket.on('mouse', function(data) {
+        socket.broadcast.emit('mouse', data);
+        console.log(data);
+    });
+});
 
 app.use(
     auth({
@@ -35,12 +58,6 @@ app.get('/profile', requiresAuth(), (req, res) => {
     res.send(JSON.stringify(req.oidc.user));
 });
 
-
-app.get('/board', (req, res) => {
+app.get('/board', requiresAuth(), (req, res) => {
     res.render("whiteboard");
-});
-
-app.listen(port, function() {
-    console.log(`Server initialized on port ${port}`);
-    console.log("From server.js");
 });

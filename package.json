@@ -15,6 +15,7 @@
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "express-openid-connect": "^2.5.1",
-    "mongoose": "^6.0.12"
+    "mongoose": "^6.0.12",
+    "socket.io": "^4.3.1"
   }
 }
