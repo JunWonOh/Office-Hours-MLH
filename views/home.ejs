@@ -1,0 +1,19 @@
+<%- include("templates/header") -%> 
+<section id="home">
+    <div class="login-area">
+        <div>
+            <h2>A <i><b>free, easy to use</b></i> video conferencing website</h2>
+            <button id="login-btn" class="btn btn-lg center">Sign in/Register</button>
+            <script type="text/javascript">
+                document.getElementById("login-btn").onclick = function () {
+                    location.href = "/login";
+                };
+            </script>
+        </div>
+    </div>
+    <img class="home-image" src="images/videocall-clipart.png">
+</section>
+<section id="steps">
+
+</section>
+<%- include("templates/footer") -%> 

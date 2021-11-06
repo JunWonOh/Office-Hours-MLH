@@ -7,6 +7,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 const { auth, requiresAuth } = require('express-openid-connect');
+app.set('view engine', 'ejs');
+app.use(express.static("public"));
 
 app.use(
     auth({
@@ -23,7 +25,8 @@ app.use(
 
 app.get('/', (req, res) => {
     //oidc = open id connect
-    res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
+    req.oidc.isAuthenticated() ? res.send('Logged in') : res.render("home")
+    // res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
 });
 
 app.get('/profile', requiresAuth(), (req, res) => {
