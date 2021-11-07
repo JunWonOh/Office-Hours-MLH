@@ -16,6 +16,10 @@ body {
     margin: auto;
     width: fit-content;
 }
+ul {
+    padding: 0;
+    list-style-type: none;
+}
 
 /* Homepage */
 #home {
@@ -40,17 +44,21 @@ body {
 .login-area div, .prompt div {
     padding: 30px;
 }
-#login-btn, #login-btn:focus {
+#login-btn, #logout-btn, #share-btn, #student-btn{
     margin-top: 30px;
     background-color: #41c47c;
     color: white;
-    box-shadow: none;
-    outline: 0px;
     width: 150px;
 }
-#login-btn:hover {
-    color: whiet;
+#login-btn:hover, #share-btn:hover, #student-btn:hover {
     background-color: #2f8053;
+}
+#logout-btn {
+    margin-top: 50px;
+    background-color: #f26e5a;
+}
+#logout-btn:hover {
+    background-color: #91473c;
 }
 #steps {
     background-color: white;

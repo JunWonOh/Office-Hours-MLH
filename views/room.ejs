@@ -5,7 +5,48 @@
 <script defer src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
 <script src="/socket.io/socket.io.js" defer></script>
 <script src="script.js" defer></script>
+
 <div id="video-grid"></div>
+<div class="prompt">
+        <div>
+            <ul>
+                <li>
+                    <h3>Hi <%= name %>, This is your meeting token:</h3>
+                    <h5 style="margin-bottom: 30px;"><%= roomId %></h5>
+                </li>
+                <li>
+                    <h3>Share with student</h3>
+                    <input id="email-input" type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter email"/>
+                    <button id="share-btn" class="btn btn-lg">Send</button>
+                    <script type="text/javascript">
+                        document.getElementById("share-btn").onclick = function () {
+                            var message = "You were invited by " + "<%= name %>" + " to Office Hours. Your token is: " + "<%= roomId %>";
+                            var subject = "Office Hours!";
+                            window.location.href = "mailto:" + document.getElementById("email-input").value + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(message);                    
+                        };
+                    </script>
+                </li>
+                <li>
+                    <h3>Are you a Student? Enter token:</h3>
+                    <input type="text" id="student-input" class="form-control" aria-describedby="emailHelp" placeholder="Token ID"/>
+                    <button id="student-btn" class="btn btn-lg">Connect</button>
+                    <script type="text/javascript">
+                        document.getElementById("student-btn").onclick = function () {
+                            location.href = "/" + document.getElementById("student-input").value
+                        };
+                    </script>
+                </li>
+                <li>
+                    <button id="logout-btn" style="width: 200px; float: right" class="btn btn-lg">Log Out</button>
+                    <script type="text/javascript">
+                        document.getElementById("logout-btn").onclick = function () {
+                            location.href = "/logout";
+                        };
+                    </script>    
+                </li>
+            </ul>
+        </div>
+    </div>
 <%- include("templates/footer") -%> 
 
 

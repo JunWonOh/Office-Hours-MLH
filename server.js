@@ -38,7 +38,7 @@ io.sockets.on('connection', function(socket) {
         })
     })
     socket.on('mouse', function(data) {
-        socket.broadcast.emit('mouse', data);
+        socket.broadcast.to(roomId).emit('mouse', data);
         console.log(data);
     });
 });
@@ -52,29 +52,29 @@ app.use(
         baseURL: process.env.BASE_URL,
         clientID: process.env.CLIENT_ID,
         secret: process.env.SECRET
-
     })
 );
 
 
 app.get('/:room', (req, res) => {
-    res.render('room', { roomId: req.params.room })
+    if (req.params.room === "board") {
+        res.render("whiteboard");
+    }
+    res.render('room', { roomId: req.params.room, name: req.oidc.user.name })
 })
 
 app.get('/', (req, res) => {
     //oidc = open id connect
-    // req.oidc.isAuthenticated() ? res.render("auth-home") : res.render("home")
     req.oidc.isAuthenticated() ? res.redirect(`/${uuidV4()}`) : res.render("home")
-    // res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
 });
 
 app.get('/profile', requiresAuth(), (req, res) => {
-    //how to obtain user data:
+    //Gathered user data:
     //given_name, family_name, nickname, name, picture, email
     res.send(JSON.stringify(req.oidc.user));
 });
 
-app.get('/board', requiresAuth(), (req, res) => {
-    console.log('hello')
-    res.render("whiteboard");
-});
+// app.get('/board', requiresAuth(), (req, res) => {
+//     console.log('hello')
+//     res.render("whiteboard");
+// });
