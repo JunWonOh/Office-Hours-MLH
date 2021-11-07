@@ -27,12 +27,12 @@ const io = socket(server, {
 
 const { v4: uuidV4 } = require('uuid');
 
-
 io.sockets.on('connection', function(socket) {
     console.log(`connected at: ${socket.id}`);
     socket.on('join-room', (roomId, userId) => {
         socket.join(roomId)
-        socket.to(roomId).emit('user-connected', userId)
+        socket.broadcast.to(roomId).emit('user-connected', userId)
+        // socket.to(roomId).emit('user-connected', userId)
     })
     socket.on('mouse', function(data) {
         socket.broadcast.emit('mouse', data);
@@ -72,5 +72,6 @@ app.get('/profile', requiresAuth(), (req, res) => {
 });
 
 app.get('/board', requiresAuth(), (req, res) => {
+    console.log('hello')
     res.render("whiteboard");
 });
