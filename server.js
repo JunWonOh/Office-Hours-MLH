@@ -25,8 +25,15 @@ const io = socket(server, {
     }
 });
 
+const { v4: uuidV4 } = require('uuid');
+
+
 io.sockets.on('connection', function(socket) {
     console.log(`connected at: ${socket.id}`);
+    socket.on('join-room', (roomId, userId) => {
+        socket.join(roomId)
+        socket.to(roomId).emit('user-connected', userId)
+    })
     socket.on('mouse', function(data) {
         socket.broadcast.emit('mouse', data);
         console.log(data);
@@ -46,9 +53,15 @@ app.use(
     })
 );
 
+
+app.get('/:room', (req, res) => {
+    res.render('room', { roomId: req.params.room })
+})
+
 app.get('/', (req, res) => {
     //oidc = open id connect
-    req.oidc.isAuthenticated() ? res.render("auth-home") : res.render("home")
+    // req.oidc.isAuthenticated() ? res.render("auth-home") : res.render("home")
+    req.oidc.isAuthenticated() ? res.redirect(`/${uuidV4()}`) : res.render("home")
     // res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
 });
 
