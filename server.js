@@ -33,6 +33,9 @@ io.sockets.on('connection', function(socket) {
         socket.join(roomId)
         socket.broadcast.to(roomId).emit('user-connected', userId)
         // socket.to(roomId).emit('user-connected', userId)
+        socket.on('disconnect', () => {
+            socket.broadcast.to(roomId).emit('user-disconnected', userId)
+        })
     })
     socket.on('mouse', function(data) {
         socket.broadcast.emit('mouse', data);

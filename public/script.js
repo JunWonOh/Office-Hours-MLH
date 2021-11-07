@@ -9,7 +9,16 @@ myVideo.muted = true
 const peers = {}
 navigator.mediaDevices.getUserMedia({
   video: true,
-  audio: true
+  audio: {
+    autoGainControl: false,
+    channelCount: 2,
+    echoCancellation: false,
+    latency: 0,
+    noiseSuppression: true,
+    sampleRate: 48000,
+    sampleSize: 16,
+    volume: 1.0
+  }
 }).then(stream => {
   addVideoStream(myVideo, stream)
   myPeer.on('call', call => {
