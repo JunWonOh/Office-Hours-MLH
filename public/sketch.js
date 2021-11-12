@@ -4,7 +4,7 @@ let previousState;
 function setup() {
     createCanvas(1200, 800);
     background(51);
-
+    console.log('hello....')
     socket = io.connect('http://localhost:3001');
     socket.on('mouse', function(data) {
         noStroke();

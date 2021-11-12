@@ -4,11 +4,12 @@ require('dotenv').config();
 const port = process.env.PORT || 3001;
 const cors = require('cors');
 const express = require('express');
-const mongoose = require('mongoose');
 const app = express();
 const { auth, requiresAuth } = require('express-openid-connect');
+const bodyParser = require('body-parser')
 
 app.set('view engine', 'ejs');
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
 var server = app.listen(port, function() {
@@ -24,7 +25,6 @@ const io = socket(server, {
         credentials: true,
     }
 });
-
 const { v4: uuidV4 } = require('uuid');
 
 io.sockets.on('connection', function(socket) {
@@ -38,7 +38,9 @@ io.sockets.on('connection', function(socket) {
         })
     })
     socket.on('mouse', function(data) {
-        socket.broadcast.to(roomId).emit('mouse', data);
+        console.log('location: ' + window.location)
+        // socket.broadcast.to(currId).emit('mouse', data);
+        socket.broadcast.emit('mouse', data);
         console.log(data);
     });
 });
@@ -58,9 +60,16 @@ app.use(
 
 app.get('/:room', (req, res) => {
     if (req.params.room === "board") {
-        res.render("whiteboard");
+        console.log(req.query)
+        console.log(req.params)
+        res.render("whiteboard", { wb_socket_id: req.query.socket });
+    } else {
+        res.render('room', { roomId: req.params.room, name: req.oidc.user.name })
     }
-    res.render('room', { roomId: req.params.room, name: req.oidc.user.name })
+})
+
+app.post('/board', (req, res) => {
+    res.redirect('/board?socket=' + req.body.wb_socket_id);
 })
 
 app.get('/', (req, res) => {
@@ -74,7 +83,7 @@ app.get('/profile', requiresAuth(), (req, res) => {
     res.send(JSON.stringify(req.oidc.user));
 });
 
-// app.get('/board', requiresAuth(), (req, res) => {
-//     console.log('hello')
-//     res.render("whiteboard");
-// });
+app.get('/board/:room', requiresAuth(), (req, res) => {
+    console.log('yo: ' + req.params.room);
+    res.render("whiteboard", { roomId: req.params.room });
+});
