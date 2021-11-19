@@ -25,29 +25,35 @@ const io = socket(server, {
         credentials: true,
     }
 });
+//allows generation of unique IDs for chat rooms
 const { v4: uuidV4 } = require('uuid');
 
+//when someone connects to the webpage, listen for an event ('join-room' or 'mouse')
 io.sockets.on('connection', function(socket) {
+    //print the current socket
     console.log(`connected at: ${socket.id}`);
+    //when 'join-room' is signaled from script.js
     socket.on('join-room', (roomId, userId) => {
+        //subscribe the socket to a given channel
         socket.join(roomId)
+        //send info to every channel that shares the same room ID
         socket.broadcast.to(roomId).emit('user-connected', userId)
-        // socket.to(roomId).emit('user-connected', userId)
         socket.on('disconnect', () => {
+            //message to script.js that userId disconnected
             socket.broadcast.to(roomId).emit('user-disconnected', userId)
         })
     })
-    socket.on('mouse', function(data) {
-        console.log('location: ' + window.location)
-        // socket.broadcast.to(currId).emit('mouse', data);
-        socket.broadcast.emit('mouse', data);
+    socket.on('mouse', function(data, wb_socket) {
+        socket.join(wb_socket)
+        socket.broadcast.to(wb_socket).emit('mouse', data);
+        //socket.broadcast.emit('mouse', data); <-- this would be how you broadcast to every channel
         console.log(data);
     });
 });
 
 app.use(
     auth({
-        //every route does not need authentication
+        //authRequired: every route does not need authentication
         authRequired: false,
         auth0Logout: true,
         issuerBaseURL: process.env.ISSUER_BASE_URL,

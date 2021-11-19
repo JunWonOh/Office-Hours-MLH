@@ -37,11 +37,12 @@
                     </script>
                 </li>
                 <li style="margin-top: 50px;">
-                    
-                        <form style="width: 200px; height: 48px; display: inline;" action="/board" method="post">
-                            <input type="text" name="wb_socket_id" value=<%= roomId %> />
-                            <button type="submit" id="whiteboard-btn" style="width: 200px; margin-top: 0;" class="btn btn-lg">Whiteboard</button>
-                        </form>
+                        <button type="submit" id="whiteboard-btn" style="width: 200px; margin-top: 0;" class="btn btn-lg">Whiteboard</button>
+                        <script type="text/javascript">
+                            document.getElementById("whiteboard-btn").onclick = function () {
+                                window.open('/board?socket=' + "<%= roomId %>");
+                            };
+                        </script>    
                         <button id="logout-btn" style="width: 200px; float: right; margin-top: 0;" class="btn btn-lg">Log Out</button>
                         <script type="text/javascript">
                             document.getElementById("logout-btn").onclick = function () {

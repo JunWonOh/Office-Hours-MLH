@@ -1,11 +1,15 @@
 var socket;
+var wb_socket
 let previousState;
 
 function setup() {
     createCanvas(1200, 800);
     background(51);
     console.log('hello....')
+    var script = $('script[src*=sketch]');
+    wb_socket = script.attr('socket_wb')
     socket = io.connect('http://localhost:3001');
+    socket.io.engine.id = wb_socket
     socket.on('mouse', function(data) {
         noStroke();
         fill(255, 0, 100);
@@ -40,7 +44,7 @@ function mouseDragged() {
         x: mouseX,
         y: mouseY
     }
-    socket.emit('mouse', data);
+    socket.emit('mouse', data, wb_socket);
     noStroke();
     fill(255);
     ellipse(mouseX, mouseY, 5, 5);
