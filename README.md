@@ -1,6 +1,9 @@
 # Office-Hours-MLH
 
 A free, easy to use video conferencing website. Great for low bandwidth calls, as well as collaborating on diagrams through an interactive white board.
+### ACCESS IT HERE:
+https://office-hours-hackrpi.herokuapp.com/
+
 ### HackRPI Winning Project (Best use of Auth0, 2nd Place in Education)
 https://devpost.com/software/office-hours-s4z7h1
 
